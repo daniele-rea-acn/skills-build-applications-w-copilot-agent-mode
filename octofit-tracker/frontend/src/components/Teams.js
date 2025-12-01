@@ -8,9 +8,10 @@ function Teams() {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const codespaceName = process.env.REACT_APP_CODESPACE_NAME || 'localhost:8000';
-        const protocol = codespaceName === 'localhost:8000' ? 'http' : 'https';
-        const apiUrl = `${protocol}://${codespaceName === 'localhost:8000' ? 'localhost:8000' : codespaceName + '-8000.app.github.dev'}/api/teams/`;
+        const codespaceName = process.env.REACT_APP_CODESPACE_NAME;
+        const apiUrl = codespaceName 
+          ? `https://${codespaceName}-8000.app.github.dev/api/teams/`
+          : 'http://localhost:8000/api/teams/';
         
         console.log('Fetching teams from:', apiUrl);
         

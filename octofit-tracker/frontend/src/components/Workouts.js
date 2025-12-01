@@ -8,9 +8,10 @@ function Workouts() {
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
-        const codespaceName = process.env.REACT_APP_CODESPACE_NAME || 'localhost:8000';
-        const protocol = codespaceName === 'localhost:8000' ? 'http' : 'https';
-        const apiUrl = `${protocol}://${codespaceName === 'localhost:8000' ? 'localhost:8000' : codespaceName + '-8000.app.github.dev'}/api/workouts/`;
+        const codespaceName = process.env.REACT_APP_CODESPACE_NAME;
+        const apiUrl = codespaceName 
+          ? `https://${codespaceName}-8000.app.github.dev/api/workouts/`
+          : 'http://localhost:8000/api/workouts/';
         
         console.log('Fetching workouts from:', apiUrl);
         

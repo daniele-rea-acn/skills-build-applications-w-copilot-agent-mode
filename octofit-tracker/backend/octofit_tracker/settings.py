@@ -26,8 +26,14 @@ SECRET_KEY = 'django-insecure-m5(4bu(k%v&o7fgw$_3t5efyu61dcm^fy6qaw7$5avpf^+7rce
 DEBUG = True
 
 
-# Allow all hosts
-ALLOWED_HOSTS = ['*']
+# Codespace URL for ALLOWED_HOSTS and CORS
+import os
+CODESPACE_NAME = os.environ.get('CODESPACE_NAME')
+if CODESPACE_NAME:
+    CODESPACE_URL = f"{CODESPACE_NAME}-8000.app.github.dev"
+    ALLOWED_HOSTS = [CODESPACE_URL, 'localhost', '127.0.0.1']
+else:
+    ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -134,7 +140,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+if CODESPACE_NAME:
+    CORS_ALLOWED_ORIGINS = [f"https://{CODESPACE_NAME}-8000.app.github.dev"]
+else:
+    CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = ['*']
 CORS_ALLOW_METHODS = ['*']

@@ -39,8 +39,19 @@ def api_root(request, format=None):
         'workouts': reverse('workout-list', request=request, format=format),
     })
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('', api_root, name='api-root'),
-]
+import os
+CODESPACE_NAME = os.environ.get('CODESPACE_NAME')
+if CODESPACE_NAME:
+    from django.views.generic import RedirectView
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('api/', include(router.urls)),
+        path('', api_root, name='api-root'),
+        path('', RedirectView.as_view(url=f'https://{CODESPACE_NAME}-8000.app.github.dev/api/', permanent=False)),
+    ]
+else:
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('api/', include(router.urls)),
+        path('', api_root, name='api-root'),
+    ]
